@@ -1,0 +1,20 @@
+{
+  "name": "bartender-webapi",
+  "version": "1.0.0",
+  "description": "Web API used by the Bartender frontend",
+  "main": "app.js",
+  "dependencies": {
+    "bluebird": "^3.5.3",
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "gpio": "^0.2.10",
+    "sqlite": "^3.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Neel Patel",
+  "license": "ISC"
+}
