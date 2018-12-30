@@ -2,6 +2,12 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const Database = require("./database");
+
+/*Creates database if does not exist*/
+const database = new Database();
+database.create();
+
 
 /* Init server listening */
 const port = process.argv[2] || 3000;

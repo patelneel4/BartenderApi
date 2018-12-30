@@ -4,7 +4,7 @@ class IngredientsDao{
     }
     createTable(){
         const sql =`CREATE TABLE IF NOT EXISTS ingredients
-        (id INTEGER PRIMARY KEY AUTOINCREMENT, liquid INT, volume REAL,
+        (id INTEGER PRIMARY KEY AUTOINCREMENT, liquid INT, volume REAL, drinksId INT,
             CONSTRAINT ingredients_fk_drinksId FOREIGN KEY (drinksId)
             REFERENCES drinks(id) ON UPDATE CASCADE ON DELETE CASCADE)`;
         return this.dao.run(sql);
@@ -26,3 +26,4 @@ class IngredientsDao{
     }
 
 }
+module.exports=IngredientsDao;

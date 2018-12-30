@@ -4,7 +4,7 @@ class LiquidsDao{
     }
     createTable(){
         const sql =`CREATE TABLE IF NOT EXISTS liquids
-        (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, brand TEXT)`;
+        (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, brand TEXT, UNIQUE(name, brand))`;
         return this.dao.run(sql);
     }
     create(name, brand){
@@ -32,6 +32,7 @@ class LiquidsDao{
     }
 
     getAll(){
-        return this.dao.get(`SELECT * FROM liquids`);
+        return this.dao.all(`SELECT * FROM liquids`);
     }
 }
+module.exports=LiquidsDao;

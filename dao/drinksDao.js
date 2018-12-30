@@ -4,7 +4,7 @@ class DrinksDao{
     }
     createTable(){
         const sql =`CREATE TABLE IF NOT EXISTS drinks
-        (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,
+        (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE,
              description TEXT)`;
         return this.dao.run(sql);
     };
@@ -37,3 +37,4 @@ class DrinksDao{
         return this.dao.get(`SELECT * FROM drinks`);
     }
 }
+module.exports= DrinksDao;
