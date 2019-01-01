@@ -39,7 +39,8 @@ class Database {
                 console.log(`volume: ${data.volume}`);
                 console.log(`drinks id: ${data.drinkId}`);
 
-            });
+            })
+            .then(()=> ingredientsDao.create(2,15, drinkId ));
     }
 }
 module.exports = Database;

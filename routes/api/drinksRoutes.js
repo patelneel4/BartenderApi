@@ -13,14 +13,20 @@ router.post("/create", function (req, res) {
 
 router.get("/all", function (req, res) {
     console.log("GET ALL");
-  
     var result = drinksController.getAll()
-        .then((data) => {
-            drinksController.getIngredients(data)
-            .then((drinks)=> {
-                res.end(JSON.stringify(drinks));
-            })
-        });
+        .then((drinks) => {
+            res.end(JSON.stringify(drinks));
+        })
 });
+
+router.get("/:id", function (req, res) {
+    console.log("GET ID");
+    var result = drinksController.getById(req.params.id)
+        .then((drink) => {
+            res.end(JSON.stringify(drink));
+        })
+});
+
+
 
 module.exports = router;

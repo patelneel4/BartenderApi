@@ -19,7 +19,7 @@ class IngredientsDao{
     }
 
     getById(id){
-        return this.dao.get(
+        return this.dao.all(
             `SELECT * FROM ingredients WHERE drinksId =?`,
             [id]
         );

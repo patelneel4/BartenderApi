@@ -38,32 +38,43 @@ class DrinksController {
     }
 
     getAll() {
-
+        var drinks = [];
         return new Promise((resolve, reject) => {
             drinksDao.getAll()
-                .then((drinks) => {
-                    resolve(drinks);
+                .then((data) => {
+                    data.forEach(d => {
+                        ingredientDao.getById(d.id)
+                            .then((ingredients) => {
+                                var drink = new Drink(d.id, d.name, d.description, ingredients);
+                                drinks.push(drink);
+                            })
+                            .then(() => {
+                                resolve(drinks);
+                            });
+                    });
+
                 });
         });
 
     }
 
-    getIngredients(data) {
-        var drinks = []
-        return new Promise((resolve, reject) => {
-            data.forEach(d => {
-                ingredientDao.getById(d.id)
-                    .then((ingredients) => {
-                        var drink = new Drink(d.id, d.name, d.description, ingredients);
-                        drinks.push(drink);
-                    }).then(()=>{
-                        resolve(drinks);
-                    });
-            });
-            
-        });
-    }
 
+    getById(id) {
+
+        return new Promise((resolve, reject) => {
+            drinksDao.getById(id)
+                .then((d) => {
+                    ingredientDao.getById(d.id)
+                        .then((ingredients) => {
+                            var drink = new Drink(d.id, d.name, d.description, ingredients);
+                            resolve(drink);
+                        })
+
+
+                });
+        });
+
+    }
 
 }
 module.exports = DrinksController;
