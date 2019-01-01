@@ -34,7 +34,7 @@ class DrinksDao{
     }
 
     getAll(){
-        return this.dao.get(`SELECT * FROM drinks`);
+        return this.dao.all(`SELECT * FROM drinks`);
     }
 }
 module.exports= DrinksDao;

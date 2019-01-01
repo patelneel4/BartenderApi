@@ -25,5 +25,9 @@ class IngredientsDao{
         );
     }
 
+    getAll(){
+        return this.dao.all(`SELECT * FROM ingredients`);
+    }
+
 }
 module.exports=IngredientsDao;

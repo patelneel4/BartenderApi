@@ -5,7 +5,7 @@ const liquidsController = new LiquidsController();
 
 router.post("/create", function(req, res){
     console.log("CREATE");
-    var result = liquidsController.create(req.body, req.body)
+    var result = liquidsController.create(req.body)
     .then((data)=> {
         res.end(JSON.stringify(data));
     });

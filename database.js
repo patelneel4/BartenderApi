@@ -34,6 +34,11 @@ class Database {
             .then(() => ingredientsDao.create(liquidId, 10, drinkId))
             .then((data) => {
                 ingredientId = data.id;
+                console.log(`Ingredient id: ${data.id}`);
+                console.log(`liquid id: ${data.liquid}`);
+                console.log(`volume: ${data.volume}`);
+                console.log(`drinks id: ${data.drinkId}`);
+
             });
     }
 }
