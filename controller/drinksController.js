@@ -17,20 +17,24 @@ class DrinksController {
     create(param) {
         return new Promise((resolve, reject) => {
             drinksDao.create(param.name, param.description)
-                .then((id) => {
+                .then((data) => {
                     var ingredients = []
-                    param.ingredients.array.forEach(element => {
-                        ingredientDao.create(element.liquid, element.volume, id)
+                    param.ingredients.forEach(element => {
+                        ingredientDao.create(element.liquid, element.volume, data.id)
                             .then((i) => {
                                 var ingredient = {
                                     i,
                                     liquid: element.liquid,
                                     volume: element.volume,
-                                    id
+                                    drinksId: data.id
                                 };
                                 ingredients.push(ingredient);
-                            });
+                            })
+                                
+                           
                     });
+                  
+                }).then(()=> {
                     var drink = new Drink(id, param.name, param.description, ingredients);
                     resolve(drink);
                 });
