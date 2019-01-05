@@ -7,19 +7,24 @@ class PinController {
 
     }
 
-    write(param, state, err) {
+    write(param, time, err) {
+
 
         var gpiop = gpio.export(param, {
             direction: gpio.DIRECTION.OUT,
-            interval: 150,
+
             ready: function () {
-                gpiop.set(state, function(){
-                    console.log(gpiop.value);
-                });
+
+                gpiop.reset();
+                setTimeout(function () {
+                    gpiop.set();
+                }, time);
+
             }
         });
-       
-       // gpiop.unexport();
+
+
+        gpiop.unexport();
     }
 
     read(param, err) {
@@ -30,10 +35,11 @@ class PinController {
                 console.log("Finished read function")
             }
         });
+        gpiop.unexport();
         return new Pin(param, gpiop.value);
-       
-       
-       
+
+
+
 
     }
 }

@@ -4,14 +4,14 @@ const PinController = require('../../controller/pinController');
 const pinController = new PinController();
 
 router.post("/set", function (req, res) {
-    console.log("POST REQ: " + req.body.pin);
-    res.end(pinController.write(req.body.pin, req.body.state));
+    console.log("POST REQ: " + req.body.gpio);
+    res.end(pinController.write(req.body.gpio, req.body.time));
 });
 
 router.get("/:id", function (req, res) {
 
-    console.log("POST REQ: " + req.body.pin);
-    var pin = pinController.read(req.body.pin);
+    console.log("POST REQ: " + req.body.gpio);
+    var pin = pinController.read(req.body.gpio);
      res.end(JSON.stringify(pin));
 });
 module.exports = router;
