@@ -10,8 +10,10 @@ router.post("/set", function (req, res) {
 
 router.get("/:id", function (req, res) {
 
-    console.log("POST REQ: " + req.body.gpio);
-    var pin = pinController.read(req.body.gpio);
-     res.end(JSON.stringify(pin));
+    console.log("POST REQ: " + req.params.gpio);
+    var pin = pinController.read(req.params.gpio)
+        .then((data) => {
+            res.end(JSON.stringify(data));
+        });
 });
 module.exports = router;
