@@ -15,6 +15,13 @@ class LiquidsDao{
         );
     }
 
+    delete(id){
+        return this.dao.run(
+            `DELETE FROM liquids WHERE id =?`,
+            [id]
+        )
+    }
+
     update(liquid){
         const {id, name, brand} = liquid;
         return this.dao.run(
@@ -33,6 +40,14 @@ class LiquidsDao{
 
     getAll(){
         return this.dao.all(`SELECT * FROM liquids`);
+    }
+
+    search(query){
+        return this.dao.all(
+            `SELECT * FROM liquids
+            WHERE name LIKE ? OR brand LIKE ?`,
+            [query, query]
+        );
     }
 }
 module.exports=LiquidsDao;

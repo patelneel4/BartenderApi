@@ -40,5 +40,24 @@ class LiquidsController {
             
         });
     }
+
+    delete(id) {
+        return new Promise((resolve, reject) => {
+            liquidsDao.delete(id)
+            .then(()=>{
+                resolve(id);
+            });
+           
+        });
+    }
+
+    search(query){
+        return new Promise((resolve, reject) => {
+            liquidsDao.search(query)
+            .then((liquids)=> {
+                resolve(liquids);
+            })
+        })
+    }
 }
 module.exports = LiquidsController;
