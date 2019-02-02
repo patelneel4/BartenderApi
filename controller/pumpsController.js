@@ -2,13 +2,15 @@ const ControllerCommon = require('./common/controllerCommon');
 const Promise = require('bluebird');
 const AppDao = require('../dao/appDao');
 const PumpsDao = require('../dao/pumpsDao');
+const LiquidDao = require('../dao/liquidsDao');
 const Pump = require('../model/pump');
 let pumpsDao;
-
+let liquidDao;
 class PumpsController{
     constructor(){
         const dao = new AppDao('./database.sqlite3');
         pumpsDao = new PumpsDao(dao);
+        liquidDao = new LiquidDao(dao);
     }
 
     create(pump){
@@ -24,6 +26,7 @@ class PumpsController{
         return new Promise((resolve, reject)=>{
             pumpsDao.update(pump)
             .then((data)=>{
+
                 resolve(pump);
             });
         });
@@ -33,7 +36,15 @@ class PumpsController{
         return new Promise((resolve, reject) => {
             pumpsDao.getAll()
                 .then((pumps) => {
-                    resolve(pumps);
+                    var pumpsArray = [];
+                    pumps.map(pump => {
+                        liquidDao.getById(pump.liquid)
+                        .then((liquid) => {
+                            pumpsArray.push({ "id": pump.id, "name": pump.name, "flowrate": pump.flowrate,"liquid": pump.liquid, "liquidName": liquid.name});
+                            resolve(pumpsArray);
+                        });
+                    })
+                    
                 });
         });
     }
@@ -42,7 +53,11 @@ class PumpsController{
         return new Promise((resolve, reject) => {
             pumpsDao.getById(id)
                 .then((pump) => {
-                    resolve(pump);
+                    liquidDao.getById(pump.liquid)
+                        .then((liquid) => {
+                            pump.liquidName = liquid.name;
+                            resolve(pump);
+                        });
                 });
             
         });
