@@ -5,11 +5,10 @@
         "type": "node",
         "request": "attach",
         "name": "Attach to Remote",
-        "address": "192.168.1.14",
+        "address": "192.168.1.33",
         "port": 9229,
-        "protocol": "legacy",
-        "localRoot": "${workspaceRoot}",
-        "remoteRoot": "/home/pi/Bartender-WebApi"
+        "localRoot": "${workspaceFolder}",
+        "remoteRoot": "//192.168.1.33/share/BartenderApi"
         }
     ]
 }

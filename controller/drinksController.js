@@ -2,16 +2,18 @@ const ControllerCommon = require('./common/controllerCommon');
 const Promise = require('bluebird');
 const AppDao = require('../dao/appDao');
 const DrinksDao = require('../dao/drinksDao');
+const LiquidDao = require('../dao/liquidsDao');
 const IngredientsDao = require('../dao/ingredientsDao');
 const Drink = require('../model/drink');
 let drinksDao;
 let ingredientDao;
-
+let liquidDao;
 class DrinksController {
     constructor() {
         const dao = new AppDao('./database.sqlite3');
         drinksDao = new DrinksDao(dao);
         ingredientDao = new IngredientsDao(dao);
+        liquidDao = new LiquidDao(dao);
     }
 
     create(param) {
@@ -30,11 +32,11 @@ class DrinksController {
                                 };
                                 ingredients.push(ingredient);
                             })
-                                
-                           
+
+
                     });
-                  
-                }).then(()=> {
+
+                }).then(() => {
                     var drink = new Drink(id, param.name, param.description, ingredients);
                     resolve(drink);
                 });
@@ -67,15 +69,26 @@ class DrinksController {
 
         return new Promise((resolve, reject) => {
             drinksDao.getById(id)
-                .then((d) => {
-                    ingredientDao.getById(d.id)
-                        .then((ingredients) => {
-                            var drink = new Drink(d.id, d.name, d.description, ingredients);
+            .then((d) => {
+                ingredientDao.getById(d.id)
+                .then((ingredients) => {
+                    var ingredientsArray = [];
+                    ingredients.map(i => {
+                        liquidDao.getById(i.liquid)
+                        .then((liquid) => {
+                            ingredientsArray.push({ "id": i.id, "liquid": i.liquid, "liquidName": liquid.name, "volume": i.volume, "drinksId": i.drinksId });
+                            var drink = new Drink(d.id, d.name, d.description, ingredientsArray);
                             resolve(drink);
                         })
+          
+                    });
+                   
+
+                })
 
 
-                });
+                })
+
         });
 
     }

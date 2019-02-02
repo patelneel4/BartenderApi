@@ -20,7 +20,7 @@ router.get("/all", function (req, res) {
 });
 
 router.get("/:id", function (req, res) {
-    console.log("GET ID");
+    console.log("GET DRINK ID:" +req.params.id);
     var result = drinksController.getById(req.params.id)
         .then((drink) => {
             res.end(JSON.stringify(drink));

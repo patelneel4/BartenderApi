@@ -20,10 +20,11 @@ router.get("/all", function (req, res) {
 });
 
 router.get("/:id",function(req, res){
-    console.log("GET ID");
+    console.log(new Date() + " GET LIQUID ID:" +req.params.id);
     var result = liquidsController.getById(req.params.id)
     .then((data)=> {
         res.end(JSON.stringify(data));
+        console.log(data);
     });
 });
 
