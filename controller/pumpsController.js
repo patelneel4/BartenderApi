@@ -40,7 +40,7 @@ class PumpsController{
                     pumps.map(pump => {
                         liquidDao.getById(pump.liquid)
                         .then((liquid) => {
-                            pumpsArray.push({ "id": pump.id, "name": pump.name, "flowrate": pump.flowrate,"liquid": pump.liquid, "liquidName": liquid.name});
+                            pumpsArray.push({ "id": pump.id, "name": pump.name, "flowrate": pump.flowrate,"liquid": pump.liquid, "liquidName": liquid.name, "liquidBrand": liquid.brand});
                             resolve(pumpsArray);
                         });
                     })
@@ -56,6 +56,7 @@ class PumpsController{
                     liquidDao.getById(pump.liquid)
                         .then((liquid) => {
                             pump.liquidName = liquid.name;
+                            pump.LiquidBrand = liquid.brand;
                             resolve(pump);
                         });
                 });
