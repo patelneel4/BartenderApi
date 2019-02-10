@@ -27,6 +27,14 @@ router.get("/:id", function (req, res) {
         })
 });
 
+router.delete("/delete/:id", function(req, res){
+    console.log("DELETE ID");
+    var result = drinksController.delete(req.params.id)
+    .then((data)=> {
+        res.end(JSON.stringify(data));
+    });
+});
+
 
 
 module.exports = router;

@@ -93,5 +93,12 @@ class DrinksController {
 
     }
 
+    delete(id){
+        return new Promise((resolve, reject)=>{
+            drinksDao.delete(id)
+            .then(resolve("Deleted drink: "+id));
+        });
+    }
+
 }
 module.exports = DrinksController;

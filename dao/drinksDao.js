@@ -17,6 +17,13 @@ class DrinksDao{
         );
     }
 
+    delete(id){
+        return this.dao.run(
+            `DELETE FROM drinks WHERE id =?`,
+            [id]
+        )
+    }
+
     update(drink){
         const {id, name, description} = drink;
         return this.dao.run(
