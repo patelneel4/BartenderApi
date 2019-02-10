@@ -8,23 +8,17 @@ class PinController {
     }
 
     write(param, time, err) {
-
-
+        console.log("Time: "+time);
+        var intervalTimer;
         var gpiop = gpio.export(param, {
             direction: gpio.DIRECTION.OUT,
-
-            ready: function () {
-
-                gpiop.reset();
-                setTimeout(function () {
+            ready: function() {
                     gpiop.set();
-                }, time);
+                   setTimeout(function() { gpiop.reset(); }, time * 1000);
+             }
+        })
 
-            }
-        });
-
-
-        gpiop.unexport();
+      
     }
 
     read(param, err) {
