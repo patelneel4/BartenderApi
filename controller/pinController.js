@@ -10,13 +10,16 @@ class PinController {
     write(param, time, err) {
         console.log("Time: "+time);
         var intervalTimer;
-        var gpiop = gpio.export(param, {
+        var gpiop = gpio.export(param,{
             direction: gpio.DIRECTION.OUT,
-            ready: function() {
-                    gpiop.set();
-                   setTimeout(function() { gpiop.reset(); }, time * 1000);
-             }
-        })
+            
+            ready: function(){
+                gpiop.reset();
+                setTimeout(function () {
+                    gpiop.set();         
+                }, time * 1000);
+            }
+        });
 
       
     }
