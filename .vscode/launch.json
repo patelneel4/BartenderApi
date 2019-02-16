@@ -6,11 +6,10 @@
         "request": "attach",
         "name": "Attach to Remote",
         "address": "192.168.1.18",
-        "protocol": "legacy",
         "port": 9229,
-        "localRoot": "${workspaceFolder}",
-        "remoteRoot": "//192.168.1.18/root/home/pi/Bartender-WebApi"
-    
+        //"protocol": "legacy",
+        "localRoot": "${workspaceRoot}",
+        "remoteRoot": "/home/pi/Bartender-WebApi"
         }
     ]
-}
+} 

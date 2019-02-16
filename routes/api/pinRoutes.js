@@ -5,7 +5,10 @@ const pinController = new PinController();
 
 router.post("/set", function (req, res) {
     console.log("POST REQ: " + req.body.gpio);
-    res.end(pinController.write(req.body.gpio, req.body.time));
+    var result = pinController.write(req.body.gpio, req.body.time)
+    .then(()=>{
+        res.end();
+    });
 });
 
 router.get("/:id", function (req, res) {
