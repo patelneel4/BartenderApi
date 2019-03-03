@@ -25,20 +25,20 @@ class DrinksController {
                         ingredientDao.create(element.liquid, element.volume, data.id)
                             .then((i) => {
                                 var ingredient = {
-                                    i,
+                                    id: i.id,
                                     liquid: element.liquid,
                                     volume: element.volume,
                                     drinksId: data.id
                                 };
                                 ingredients.push(ingredient);
+                            }).then(_ => {
+                                var drink = new Drink(data.id, param.name, param.description, ingredients);
+                                resolve(drink);
                             })
 
 
                     });
 
-                }).then(() => {
-                    var drink = new Drink(id, param.name, param.description, ingredients);
-                    resolve(drink);
                 });
         });
     }
@@ -69,22 +69,28 @@ class DrinksController {
 
         return new Promise((resolve, reject) => {
             drinksDao.getById(id)
-            .then((d) => {
-                ingredientDao.getById(d.id)
-                .then((ingredients) => {
-                    var ingredientsArray = [];
-                    ingredients.map(i => {
-                        liquidDao.getById(i.liquid)
-                        .then((liquid) => {
-                            ingredientsArray.push({ "id": i.id, "liquid": i.liquid, "liquidName": liquid.name, "volume": i.volume, "drinksId": i.drinksId });
-                            var drink = new Drink(d.id, d.name, d.description, ingredientsArray);
-                            resolve(drink);
-                        })
-          
-                    });
-                   
+                .then((d) => {
+                    ingredientDao.getById(d.id)
+                        .then((ingredients) => {
+                            var ingredientsArray = [];
+                            ingredients.map(i => {
+                                liquidDao.getById(i.liquid)
+                                    .then((liquid) => {
+                                        ingredientsArray.push({
+                                            "id": i.id,
+                                            "liquid": i.liquid,
+                                            "liquidName": liquid.name,
+                                            "volume": i.volume,
+                                            "drinksId": i.drinksId
+                                        });
+                                        var drink = new Drink(d.id, d.name, d.description, ingredientsArray);
+                                        resolve(drink);
+                                    })
 
-                })
+                            });
+
+
+                        })
 
 
                 })
@@ -93,10 +99,10 @@ class DrinksController {
 
     }
 
-    delete(id){
-        return new Promise((resolve, reject)=>{
+    delete(id) {
+        return new Promise((resolve, reject) => {
             drinksDao.delete(id)
-            .then(resolve("Deleted drink: "+id));
+                .then(resolve("Deleted drink: " + id));
         });
     }
 
