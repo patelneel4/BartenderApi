@@ -27,6 +27,14 @@ router.get("/:id", function (req, res) {
         })
 });
 
+router.post("/update", function (req, res) {
+    console.log("UPDATE");
+    var result = drinksController.update(req.body)
+        .then((data) => {
+            res.end(JSON.stringify(data));
+        });
+});
+
 router.delete("/delete/:id", function(req, res){
     console.log("DELETE ID");
     var result = drinksController.delete(req.params.id)

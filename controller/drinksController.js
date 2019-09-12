@@ -64,6 +64,32 @@ class DrinksController {
 
     }
 
+    update(drink){
+        console.log(drink);
+        return new Promise((resolve, reject)=>{
+            drinksDao.update(drink)
+            .then((data)=>{
+                ingredientDao.delete(drink.id);
+                var ingredients = []
+                    drink.ingredients.forEach(element => {
+                        ingredientDao.create(element.liquid, element.volume, drink.id)
+                            .then((i) => {
+                                var ingredient = {
+                                    id: i.id,
+                                    liquid: element.liquid,
+                                    volume: element.volume,
+                                    drinksId: drink.id
+                                };
+                                ingredients.push(ingredient);
+                            }).then(_ => {
+                                var d = new Drink(drink.id, drink.name, drink.description, ingredients);
+                                resolve(d);
+                            })
+                        });
+
+            });
+        });
+    }
 
     getById(id) {
 

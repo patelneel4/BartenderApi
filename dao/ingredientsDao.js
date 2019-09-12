@@ -25,6 +25,13 @@ class IngredientsDao{
         );
     }
 
+    delete(id){
+        return this.dao.run(
+            `DELETE FROM ingredients WHERE drinksId =?`,
+            [id]
+        )
+    }
+
     getAll(){
         return this.dao.all(`SELECT * FROM ingredients`);
     }
