@@ -41,10 +41,11 @@ class PinController {
             direction: gpio.DIRECTION.IN,
             ready: function () {
                 console.log("Finished read function")
+                return new Pin(param, gpiop.value);
             }
         });
-        gpiop.unexport();
-        return new Pin(param, gpiop.value);
+     
+     
 
 
 
