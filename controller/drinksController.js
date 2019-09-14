@@ -2,17 +2,22 @@ const ControllerCommon = require('./common/controllerCommon');
 const Promise = require('bluebird');
 const AppDao = require('../dao/appDao');
 const DrinksDao = require('../dao/drinksDao');
+const DrinksQueueDao = require('../dao/drinksQueueDao');
 const LiquidDao = require('../dao/liquidsDao');
 const IngredientsDao = require('../dao/ingredientsDao');
 const Drink = require('../model/drink');
+const config = require('../config.json');
+const dbLocation = config['dbLocation'];
 let drinksDao;
 let ingredientDao;
 let liquidDao;
+let drinksQueueDao;
 class DrinksController {
     constructor() {
-        const dao = new AppDao('./database.sqlite3');
+        const dao = new AppDao(dbLocation);
         drinksDao = new DrinksDao(dao);
         ingredientDao = new IngredientsDao(dao);
+        drinksQueueDao = new DrinksQueueDao(dao);
         liquidDao = new LiquidDao(dao);
     }
 
@@ -64,13 +69,13 @@ class DrinksController {
 
     }
 
-    update(drink){
+    update(drink) {
         console.log(drink);
-        return new Promise((resolve, reject)=>{
+        return new Promise((resolve, reject) => {
             drinksDao.update(drink)
-            .then((data)=>{
-                ingredientDao.delete(drink.id);
-                var ingredients = []
+                .then((data) => {
+                    ingredientDao.delete(drink.id);
+                    var ingredients = []
                     drink.ingredients.forEach(element => {
                         ingredientDao.create(element.liquid, element.volume, drink.id)
                             .then((i) => {
@@ -85,9 +90,9 @@ class DrinksController {
                                 var d = new Drink(drink.id, drink.name, drink.description, ingredients);
                                 resolve(d);
                             })
-                        });
+                    });
 
-            });
+                });
         });
     }
 
@@ -129,6 +134,27 @@ class DrinksController {
         return new Promise((resolve, reject) => {
             drinksDao.delete(id)
                 .then(resolve("Deleted drink: " + id));
+        });
+    }
+
+    addDrinkToQueue(drinkId){
+        return new Promise((resolve, reject)=>{
+            drinksQueueDao.add(drinkId)
+                .then(resolve("Drink Queued: "+drinkId))
+        });
+    }
+    deleteDrinkFromQueue(drinkId){
+        return new Promise((resolve, reject)=>{
+            drinksQueueDao.delete(drinkId)
+                .then(resolve("Drink Deleted from Queue: "+drinkId))
+        });
+    }
+    getDrinksQueue() {
+        return new Promise((resolve, reject) => {
+            drinksQueueDao.getAll()
+                .then((data) => {
+                    resolve(data)
+                });
         });
     }
 

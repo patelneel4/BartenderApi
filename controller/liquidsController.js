@@ -3,11 +3,13 @@ const Promise = require('bluebird');
 const AppDao = require('../dao/appDao');
 const LiquidsDao = require('../dao/liquidsDao');
 const Liquid = require('../model/liquid');
+const config = require('../config.json');
+const dbLocation = config['dbLocation'];
 let liquidsDao;
 
 class LiquidsController {
     constructor() {
-        const dao = new AppDao('./database.sqlite3');
+        const dao = new AppDao(dbLocation);
         liquidsDao = new LiquidsDao(dao);
     }
 

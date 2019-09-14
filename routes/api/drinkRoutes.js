@@ -43,6 +43,30 @@ router.delete("/delete/:id", function(req, res){
     });
 });
 
+router.post("/addDrinkToQueue/:id", function(req, res){
+    console.log("ADDED DRINK TO QUEUE");
+    var result = drinksController.addDrinkToQueue(req.params.id)
+    .then((data)=> {
+        res.end(JSON.stringify(data));
+    });
+});
+
+router.delete("/deleteDrinkFromQueue/:id", function(req, res){
+    console.log("DELETED DRINK FROM QUEUE");
+    var result = drinksController.deleteDrinkFromQueue(req.params.id)
+    .then((data)=> {
+        res.end(JSON.stringify(data));
+    });
+});
+
+router.get("/all/getDrinksQueue", function (req, res) {
+    console.log("GET ALL");
+    var result = drinksController.getDrinksQueue()
+        .then((drinks) => {
+            res.end(JSON.stringify(drinks));
+        })
+});
+
 
 
 module.exports = router;

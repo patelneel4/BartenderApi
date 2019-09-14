@@ -4,11 +4,13 @@ const AppDao = require('../dao/appDao');
 const PumpsDao = require('../dao/pumpsDao');
 const LiquidDao = require('../dao/liquidsDao');
 const Pump = require('../model/pump');
+const config = require('../config.json');
+const dbLocation = config['dbLocation'];
 let pumpsDao;
 let liquidDao;
 class PumpsController{
     constructor(){
-        const dao = new AppDao('./database.sqlite3');
+        const dao = new AppDao(dbLocation);
         pumpsDao = new PumpsDao(dao);
         liquidDao = new LiquidDao(dao);
     }

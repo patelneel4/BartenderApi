@@ -1,3 +1,4 @@
 {
-    "pi-model": 0
+    "pi-model": 0,
+    "dbLocation": "/home/pi/Bartender/BartenderApi/Bartender.sqlite3"
 }
