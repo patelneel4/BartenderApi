@@ -9,7 +9,8 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "gpio": "^0.2.10",
-    "sqlite": "^3.0.0"
+    "sqlite": "^3.0.0",
+    "sqlite3": "^4.1.0"
   },
   "devDependencies": {},
   "scripts": {

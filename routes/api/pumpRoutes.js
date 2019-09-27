@@ -19,12 +19,12 @@ router.post("/update", function (req, res) {
         });
 });
 
-router.get("/all", function (req, res) {
+ router.get("/all", async function (req, res) {
     console.log("GET ALL");
-    var result = pumpsController.getAll()
-        .then((pumps) => {
-            res.end(JSON.stringify(pumps));
-        })
+    var result = await pumpsController.getAll().then((pumps)=>{
+        res.end(JSON.stringify(pumps));
+    });
+  
 });
 
 router.get("/:id", function (req, res) {

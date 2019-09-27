@@ -60,7 +60,9 @@ class DrinksController {
                                 drinks.push(drink);
                             })
                             .then(() => {
-                                resolve(drinks);
+                                setTimeout(() => {
+                                    resolve(drinks.sort((a,b)=> parseInt(a.id) - parseInt(b.id)));
+                                }, 10);
                             });
                     });
 
@@ -137,22 +139,23 @@ class DrinksController {
         });
     }
 
-    addDrinkToQueue(drinkId){
-        return new Promise((resolve, reject)=>{
+    addDrinkToQueue(drinkId) {
+        return new Promise((resolve, reject) => {
             drinksQueueDao.add(drinkId)
-                .then(resolve("Drink Queued: "+drinkId))
+                .then(resolve("Drink Queued: " + drinkId))
         });
     }
-    deleteDrinkFromQueue(drinkId){
-        return new Promise((resolve, reject)=>{
+    deleteDrinkFromQueue(drinkId) {
+        return new Promise((resolve, reject) => {
             drinksQueueDao.delete(drinkId)
-                .then(resolve("Drink Deleted from Queue: "+drinkId))
+                .then(resolve("Drink Deleted from Queue: " + drinkId))
         });
     }
     getDrinksQueue() {
         return new Promise((resolve, reject) => {
             drinksQueueDao.getAll()
                 .then((data) => {
+                    
                     resolve(data)
                 });
         });
