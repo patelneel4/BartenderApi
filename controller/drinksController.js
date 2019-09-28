@@ -61,105 +61,118 @@ class DrinksController {
                             })
                             .then(() => {
                                 setTimeout(() => {
-                                    resolve(drinks.sort((a,b)=> parseInt(a.id) - parseInt(b.id)));
-                                }, 10);
+                                    resolve(drinks.sort((a, b) => {
+                                        var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+                                        var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+                                        if (nameA < nameB) {
+                                            return -1;
+                                        }
+                                        if (nameA > nameB) {
+                                            return 1;
+                                        }
+
+                                        // names must be equal
+                                        return 0;
+
+                                    }), 10);
+                                });
                             });
+                        });
                     });
-
                 });
-        });
 
-    }
+        }
+        
 
     update(drink) {
-        console.log(drink);
-        return new Promise((resolve, reject) => {
-            drinksDao.update(drink)
-                .then((data) => {
-                    ingredientDao.delete(drink.id);
-                    var ingredients = []
-                    drink.ingredients.forEach(element => {
-                        ingredientDao.create(element.liquid, element.volume, drink.id)
-                            .then((i) => {
-                                var ingredient = {
-                                    id: i.id,
-                                    liquid: element.liquid,
-                                    volume: element.volume,
-                                    drinksId: drink.id
-                                };
-                                ingredients.push(ingredient);
-                            }).then(_ => {
-                                var d = new Drink(drink.id, drink.name, drink.description, ingredients);
-                                resolve(d);
-                            })
-                    });
+            console.log(drink);
+            return new Promise((resolve, reject) => {
+                drinksDao.update(drink)
+                    .then((data) => {
+                        ingredientDao.delete(drink.id);
+                        var ingredients = []
+                        drink.ingredients.forEach(element => {
+                            ingredientDao.create(element.liquid, element.volume, drink.id)
+                                .then((i) => {
+                                    var ingredient = {
+                                        id: i.id,
+                                        liquid: element.liquid,
+                                        volume: element.volume,
+                                        drinksId: drink.id
+                                    };
+                                    ingredients.push(ingredient);
+                                }).then(_ => {
+                                    var d = new Drink(drink.id, drink.name, drink.description, ingredients);
+                                    resolve(d);
+                                })
+                        });
 
-                });
-        });
-    }
+                    });
+            });
+        }
 
     getById(id) {
 
-        return new Promise((resolve, reject) => {
-            drinksDao.getById(id)
-                .then((d) => {
-                    ingredientDao.getById(d.id)
-                        .then((ingredients) => {
-                            var ingredientsArray = [];
-                            ingredients.map(i => {
-                                liquidDao.getById(i.liquid)
-                                    .then((liquid) => {
-                                        ingredientsArray.push({
-                                            "id": i.id,
-                                            "liquid": i.liquid,
-                                            "liquidName": liquid.name,
-                                            "volume": i.volume,
-                                            "drinksId": i.drinksId
-                                        });
-                                        var drink = new Drink(d.id, d.name, d.description, ingredientsArray);
-                                        resolve(drink);
-                                    })
+            return new Promise((resolve, reject) => {
+                drinksDao.getById(id)
+                    .then((d) => {
+                        ingredientDao.getById(d.id)
+                            .then((ingredients) => {
+                                var ingredientsArray = [];
+                                ingredients.map(i => {
+                                    liquidDao.getById(i.liquid)
+                                        .then((liquid) => {
+                                            ingredientsArray.push({
+                                                "id": i.id,
+                                                "liquid": i.liquid,
+                                                "liquidName": liquid.name,
+                                                "volume": i.volume,
+                                                "drinksId": i.drinksId
+                                            });
+                                            var drink = new Drink(d.id, d.name, d.description, ingredientsArray);
+                                            resolve(drink);
+                                        })
 
-                            });
-
-
-                        })
+                                });
 
 
-                })
+                            })
 
-        });
 
-    }
+                    })
 
-    delete(id) {
-        return new Promise((resolve, reject) => {
-            drinksDao.delete(id)
-                .then(resolve("Deleted drink: " + id));
-        });
-    }
+            });
+
+        }
+
+    delete (id) {
+            return new Promise((resolve, reject) => {
+                drinksDao.delete(id)
+                    .then(resolve("Deleted drink: " + id));
+            });
+        }
 
     addDrinkToQueue(drinkId) {
-        return new Promise((resolve, reject) => {
-            drinksQueueDao.add(drinkId)
-                .then(resolve("Drink Queued: " + drinkId))
-        });
-    }
+            return new Promise((resolve, reject) => {
+                drinksQueueDao.add(drinkId)
+                    .then(resolve("Drink Queued: " + drinkId))
+            });
+        }
     deleteDrinkFromQueue(drinkId) {
-        return new Promise((resolve, reject) => {
-            drinksQueueDao.delete(drinkId)
-                .then(resolve("Drink Deleted from Queue: " + drinkId))
-        });
-    }
+            return new Promise((resolve, reject) => {
+                drinksQueueDao.delete(drinkId)
+                    .then(resolve("Drink Deleted from Queue: " + drinkId))
+            });
+        }
     getDrinksQueue() {
-        return new Promise((resolve, reject) => {
-            drinksQueueDao.getAll()
-                .then((data) => {
-                    
-                    resolve(data)
-                });
-        });
-    }
+            return new Promise((resolve, reject) => {
+                drinksQueueDao.getAll()
+                    .then((data) => {
+
+                        resolve(data)
+                    });
+            });
+        }
 
 }
 module.exports = DrinksController;
