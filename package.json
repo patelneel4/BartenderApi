@@ -7,7 +7,7 @@
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "gpio": "^0.2.10",
     "onoff": "^6.0.3",
     "rpi-gpio": "^2.1.7",
